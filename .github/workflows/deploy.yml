@@ -1,0 +1,23 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - release
+
+jobs:
+  build:
+    name: Publish
+    uses: ./.github/workflows/publish.yml
+
+  deploy:
+    name: Notify Watchtower
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Tell the watchtower server there is a new image
+        env:
+          WATCHTOWER_URL: ${{ vars.WATCHTOWER_URL }}
+          WATCHTOWER_TOKEN: ${{ secrets.WATCHTOWER_TOKEN }}
+        run: 'curl -I -H "Authorization: Bearer $WATCHTOWER_TOKEN" $WATCHTOWER_URL'
