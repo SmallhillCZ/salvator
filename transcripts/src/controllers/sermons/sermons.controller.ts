@@ -24,7 +24,7 @@ export class SermonsController {
 			${sermons
 				.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 				.map((sermon) => {
-					const date = new Date(sermon.date).toLocaleDateString("cs-CZ");
+					const date = new Date(sermon.date).toLocaleDateString("cs-CZ", { timeZone: "CET" });
 					return `\
 					<tr>
 						<th>${date}</th>
