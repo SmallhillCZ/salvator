@@ -8,7 +8,7 @@ async function bootstrap() {
 
 	const config = app.get(Config);
 
-	registerOpenAPI(app, config);
+	registerOpenAPI("openapi", app, config);
 
 	await app.listen(config.server.port, config.server.host);
 }
