@@ -1,0 +1,10 @@
+{
+  "name": "salvator",
+  "private": true,
+  "scripts": {
+    "release": "git switch release && git merge master --ff-only && git push --follow-tags && git switch master",
+    "release:patch": "git switch master && git pull && npm version patch && git push && npm run release",
+    "release:minor": "git switch master && git pull && npm version minor && git push && npm run release",
+    "release:major": "git switch master && git pull && npm version major && git push && npm run release"
+  }
+}
