@@ -7,5 +7,5 @@
     "release:minor": "git switch master && git pull && npm version minor && git push && npm run release",
     "release:major": "git switch master && git pull && npm version major && git push && npm run release"
   },
-  "version": "1.0.2"
+  "version": "1.0.3"
 }
