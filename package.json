@@ -6,5 +6,6 @@
     "release:patch": "git switch master && git pull && npm version patch && git push && npm run release",
     "release:minor": "git switch master && git pull && npm version minor && git push && npm run release",
     "release:major": "git switch master && git pull && npm version major && git push && npm run release"
-  }
+  },
+  "version": "0.0.1"
 }
