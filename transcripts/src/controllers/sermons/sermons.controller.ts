@@ -1,4 +1,4 @@
-import { Controller, Get, Header, NotFoundException, Param, Query, Res } from "@nestjs/common";
+import { Controller, Get, Header, Param, Query, Res } from "@nestjs/common";
 import { Response } from "express";
 import { SalvatorService } from "src/services/salvator/salvator.service";
 
@@ -47,7 +47,7 @@ export class SermonsController {
 	) {
 		const transcription = await this.salvatorService.getSermonTranscript(id, { original });
 
-		if (!transcription) throw new NotFoundException();
+		if (!transcription) return res.sendStatus(404);
 
 		res.send(transcription);
 	}
