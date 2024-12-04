@@ -1,9 +1,12 @@
 import { Injectable } from "@nestjs/common";
-import axios from "axios";
+import { createReadStream } from "fs";
 import OpenAI from "openai";
-import { FsReadStream } from "openai/_shims";
 import { Config } from "src/config";
 
+export type TranscribeOptions = Omit<
+	OpenAI.Audio.Transcriptions.TranscriptionCreateParams<"json" | undefined>,
+	"file" | "model"
+>;
 @Injectable()
 export class OpenaiService {
 	private openaiInstance: OpenAI;
@@ -14,16 +17,33 @@ export class OpenaiService {
 		});
 	}
 
-	async transcribe(url: string) {
-		const file = await axios.get<FsReadStream>(url, { responseType: "stream" }).then((res) => res.data);
-
-		file.path = url;
+	async transcribe(filePath: string, options: TranscribeOptions = {}) {
+		const file = createReadStream(filePath);
 
 		const response = await this.openaiInstance.audio.transcriptions.create({
+			language: "cs",
+			...options,
 			file,
 			model: "whisper-1",
 		});
 
 		return response.text;
+	}
+
+	async correctTranscript(prompt: string, transcription: string) {
+		const completion = await this.openaiInstance.chat.completions.create({
+			model: "gpt-4o",
+			messages: [
+				{
+					role: "system",
+					content: prompt,
+				},
+				{
+					role: "user",
+					content: transcription,
+				},
+			],
+		});
+		return completion.choices[0].message.content;
 	}
 }

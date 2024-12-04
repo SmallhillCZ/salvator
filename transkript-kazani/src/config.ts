@@ -1,7 +1,9 @@
 import { Injectable } from "@nestjs/common";
 import { config } from "dotenv";
+import { tmpdir } from "os";
+import * as path from "path";
 
-config({ override: true });
+config({ override: true, path: "../.env" });
 
 @Injectable()
 export class Config {
@@ -14,7 +16,13 @@ export class Config {
 		apiKey: process.env.OPENAI_API_KEY,
 	};
 
-	kazani = {
+	salvator = {
 		feedUrl: process.env["FEED_URL"] || "https://www.farnostsalvator.cz/kazani.rss",
+		sermonsFile: "output/sermons.json",
+	};
+
+	transcription = {
+		outputDir: "output",
+		tmpDir: path.join(tmpdir(), "transcriptions"),
 	};
 }
