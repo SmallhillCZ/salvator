@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import Parser from "rss-parser";
+import * as Parser from "rss-parser";
 
 @Injectable()
 export class RssParserService {
