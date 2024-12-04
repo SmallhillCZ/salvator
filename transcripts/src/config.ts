@@ -21,11 +21,11 @@ export class Config {
 
 	salvator = {
 		feedUrl: process.env["FEED_URL"] || "https://www.farnostsalvator.cz/kazani.rss",
-		sermonsFile: "output/sermons.json",
+		sermonsFile: path.join(process.env["DATA_DIR"] || "output", "sermons.json"),
 	};
 
 	transcription = {
-		outputDir: "output",
+		outputDir: process.env["DATA_DIR"] || "output",
 		tmpDir: path.join(tmpdir(), "transcriptions"),
 	};
 
