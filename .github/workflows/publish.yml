@@ -25,6 +25,6 @@ jobs:
         with:
           push: true
           context: .
-          tags: ""
+          tags: "ghcr.cz/smallhillcz/salvator:latest"
           cache-from: type=gha
           cache-to: type=gha,mode=max
