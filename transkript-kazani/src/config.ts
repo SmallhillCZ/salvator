@@ -1,4 +1,7 @@
 import { Injectable } from "@nestjs/common";
+import { config } from "dotenv";
+
+config({ override: true });
 
 @Injectable()
 export class Config {
