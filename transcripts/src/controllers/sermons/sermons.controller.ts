@@ -14,6 +14,7 @@ export class SermonsController {
 <!DOCTYPE html>
 <html>
 	<head>
+		<title>Přepisy kázání</title>
 		<style>
 			td,th{padding:0.5em}
 		</style>
