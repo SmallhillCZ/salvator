@@ -1,10 +1,9 @@
 import { Injectable } from "@nestjs/common";
 
-const server = {
-	port: process.env["PORT"],
-};
-
 @Injectable()
 export class Config {
-	server = server;
+	server = {
+		port: process.env["PORT"] ? parseInt(process.env["PORT"]) : 3000,
+		host: process.env["HOST"] || "127.0.0.1",
+	};
 }
