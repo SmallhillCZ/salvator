@@ -8,7 +8,7 @@ config({ override: true, path: "../.env" });
 
 @Injectable()
 export class Config {
-	packageJson = JSON.parse(readFileSync("../package.json", "utf-8"));
+	packageJson = JSON.parse(readFileSync("./package.json", "utf-8"));
 
 	server = {
 		port: process.env["PORT"] ? parseInt(process.env["PORT"]) : 3000,
