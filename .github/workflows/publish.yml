@@ -24,7 +24,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           push: true
-          context: .
-          tags: "ghcr.cz/smallhillcz/salvator:latest"
+          context: ./transcripts
+          tags: "ghcr.cz/smallhillcz/salvator-transcripts:latest"
           cache-from: type=gha
           cache-to: type=gha,mode=max
