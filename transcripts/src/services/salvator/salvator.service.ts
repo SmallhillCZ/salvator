@@ -80,12 +80,12 @@ export class SalvatorService implements OnApplicationBootstrap {
 					this.logger.log(`Transcribed ${sermon.id}`);
 				} catch (e) {
 					this.logger.error(`Error transcribing ${sermon.id}`);
-					this.logger.error(e);
+					console.error(JSON.stringify(e));
 				}
 			}
 		} catch (e) {
 			this.logger.error("Error transcribing sermons");
-			this.logger.error(e);
+			console.error(JSON.stringify(e));
 		} finally {
 			this.logger.verbose("Finished transcribing sermons");
 			this.transcriptionRunning = false;
