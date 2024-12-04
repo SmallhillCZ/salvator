@@ -1,4 +1,4 @@
-import { Injectable, Logger, OnApplicationBootstrap } from "@nestjs/common";
+import { Injectable, Logger } from "@nestjs/common";
 import { Cron } from "@nestjs/schedule";
 import { readFile, writeFile } from "fs/promises";
 import { Config } from "src/config";
@@ -14,20 +14,16 @@ export interface Sermon {
 }
 
 @Injectable()
-export class SalvatorService implements OnApplicationBootstrap {
+export class SalvatorService {
 	private readonly logger = new Logger(SalvatorService.name);
 
-	private transcriptionRunning = false;
+	private updateRunning = false;
 
 	constructor(
 		private readonly config: Config,
 		private readonly rssParser: RssParserService,
 		private readonly transcriptionService: TranscriptionService,
 	) {}
-
-	onApplicationBootstrap() {
-		this.processSermons();
-	}
 
 	async getSermons(): Promise<Sermon[]> {
 		const sermons = await this.loadSermons();
@@ -40,8 +36,11 @@ export class SalvatorService implements OnApplicationBootstrap {
 	}
 
 	@Cron("0 0 * * * *")
-	async processSermons() {
+	async updateSermons() {
 		try {
+			if (this.updateRunning) return;
+			this.updateRunning = true;
+
 			this.logger.verbose("Loading sermons");
 			const feed = await this.rssParser.parseFeed(this.config.salvator.feedUrl);
 
@@ -64,9 +63,6 @@ export class SalvatorService implements OnApplicationBootstrap {
 
 			await writeFile(this.config.transcription.outputDir + "/sermons.json", JSON.stringify(sermons));
 
-			if (this.transcriptionRunning) return;
-			this.transcriptionRunning = true;
-
 			this.logger.verbose(`Loaded ${newSermons.length} sermons. Total: ${sermons.length}`);
 
 			this.logger.verbose("Transcribing sermons");
@@ -88,7 +84,7 @@ export class SalvatorService implements OnApplicationBootstrap {
 			console.error(JSON.stringify(e));
 		} finally {
 			this.logger.verbose("Finished transcribing sermons");
-			this.transcriptionRunning = false;
+			this.updateRunning = false;
 		}
 	}
 
