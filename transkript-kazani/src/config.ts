@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { config } from "dotenv";
+import { readFileSync } from "fs";
 import { tmpdir } from "os";
 import * as path from "path";
 
@@ -7,6 +8,8 @@ config({ override: true, path: "../.env" });
 
 @Injectable()
 export class Config {
+	packageJson = JSON.parse(readFileSync("../package.json", "utf-8"));
+
 	server = {
 		port: process.env["PORT"] ? parseInt(process.env["PORT"]) : 3000,
 		host: process.env["HOST"] || "127.0.0.1",
@@ -24,5 +27,10 @@ export class Config {
 	transcription = {
 		outputDir: "output",
 		tmpDir: path.join(tmpdir(), "transcriptions"),
+	};
+
+	app = {
+		name: this.packageJson.name,
+		version: this.packageJson.version,
 	};
 }
