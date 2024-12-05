@@ -1,0 +1,20 @@
+<html>
+	<head>
+		<title></title>
+		<style>
+			td,th{padding:0.5em}
+		</style>
+	</head>
+	<body>
+		<h1>Přepisy kázání</h1>
+		<table>
+			{{#each sermons}}
+				<tr>
+					<th>{{date}}</th>
+					<td><a href="/{{id}}/transcript">{{title}}</a></td>
+					<td>{{description}}</td>
+				</tr>
+			{{/each}}
+		</table>
+	</body>
+</html>
