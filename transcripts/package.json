@@ -26,6 +26,7 @@
     "@nestjs/swagger": "^8.0.7",
     "dotenv": "^16.4.7",
     "openai": "^4.75.0",
+    "hbs": "^4.2.0",
     "reflect-metadata": "^0.2.0",
     "rss-parser": "^3.13.0",
     "rxjs": "^7.8.1"
