@@ -31,10 +31,10 @@ export class SermonsController {
 	async getSermonTranscriptView(@Param("id") id: string, @Query("original") original: boolean) {
 		const transcription = await this.salvatorService.getSermonTranscript(id, { original });
 
-		const content = await marked.parse(transcription);
+		const html = await marked.parse(transcription);
 
 		return {
-			content: content,
+			transcript: html,
 		};
 	}
 
