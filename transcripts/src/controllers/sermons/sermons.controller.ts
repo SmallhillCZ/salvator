@@ -17,6 +17,7 @@ export class SermonsController {
 				.map((sermon) => {
 					const date = new Date(sermon.date).toLocaleDateString("cs-CZ", { timeZone: "CET" });
 					return {
+						id: sermon.id,
 						date,
 						title: sermon.title,
 						description: sermon.description,
