@@ -3,7 +3,7 @@ import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { Config } from "./config";
 
 export function registerOpenAPI(path: string, app: INestApplication, config: Config) {
-	const options = new DocumentBuilder().setTitle(config.app.name).setVersion(config.app.version).build();
+	const options = new DocumentBuilder().setTitle(config.app.name).build();
 
 	const document = SwaggerModule.createDocument(app, options, {
 		operationIdFactory: (controllerKey: string, methodKey: string) => methodKey,

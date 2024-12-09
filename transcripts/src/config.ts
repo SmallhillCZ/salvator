@@ -31,6 +31,5 @@ export class Config {
 
 	app = {
 		name: this.packageJson.name,
-		version: this.packageJson.version,
 	};
 }
