@@ -7,10 +7,11 @@ import { TranscriptionService } from "../transcription/transcription.service";
 
 export interface Sermon {
 	id: string;
-	title: string;
-	description: string;
 	url: string;
-	date: string;
+	title: string;
+
+	description?: string;
+	date?: string;
 }
 
 @Injectable()
@@ -30,7 +31,7 @@ export class SalvatorService {
 		return sermons;
 	}
 
-	async getSermon(id: string): Promise<Sermon> {
+	async getSermon(id: string): Promise<Sermon | null> {
 		const sermons = await this.loadSermons();
 		const sermon = sermons.find((sermon) => sermon.id === id);
 
@@ -54,13 +55,18 @@ export class SalvatorService {
 
 			const oldSermons = await this.loadSermons();
 
-			const newSermons: Sermon[] = feed.items.map((item) => ({
-				id: this.getSermonId(item.guid),
-				title: item.title.replace("●", "").trim(),
-				description: item.content,
-				url: item.enclosure.url,
-				date: item.isoDate,
-			}));
+			const newSermons: Sermon[] = feed.items
+				.filter((item) => item.guid && item.enclosure)
+				.map((item) => {
+					const id = this.getSermonId(item.guid!);
+					return {
+						id,
+						title: item.title?.replace("●", "").trim() || id,
+						description: item.content,
+						url: item.enclosure!.url,
+						date: item.isoDate,
+					};
+				});
 
 			const sermonsMap = new Map<string, Sermon>();
 			for (const sermon of [...oldSermons, ...newSermons]) {

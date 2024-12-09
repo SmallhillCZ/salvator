@@ -50,7 +50,11 @@ Tvým úkolem je opravit následující text, který byl přepsán z nahrávky k
 
 		this.logger.debug("Correcting transcription");
 		const correctedTranscription = await this.openai.correctTranscript(this.correctionPrompt, transcription);
-		await writeFile(correctedPath, correctedTranscription);
+		if (correctedTranscription) {
+			await writeFile(correctedPath, correctedTranscription);
+		} else {
+			this.logger.error("No correction returned");
+		}
 
 		return transcription;
 	}
