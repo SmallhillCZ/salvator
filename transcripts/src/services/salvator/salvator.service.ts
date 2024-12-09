@@ -30,6 +30,14 @@ export class SalvatorService {
 		return sermons;
 	}
 
+	async getSermon(id: string): Promise<Sermon> {
+		const sermons = await this.loadSermons();
+		const sermon = sermons.find((sermon) => sermon.id === id);
+
+		if (!sermon) return null;
+		return sermon;
+	}
+
 	async getSermonTranscript(id: string, { original }: { original?: boolean } = {}) {
 		const transcription = await this.transcriptionService.getTranscription(id, { original });
 		return transcription;

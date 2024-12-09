@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Query, Render } from "@nestjs/common";
+import { Controller, Get, NotFoundException, Param, Query, Render } from "@nestjs/common";
 import { marked } from "marked";
 import { SalvatorService } from "src/services/salvator/salvator.service";
 
@@ -26,14 +26,18 @@ export class SermonsController {
 		};
 	}
 
-	@Get(":id/transcript")
-	@Render("sermon-transcript")
+	@Get(":id")
+	@Render("sermon")
 	async getSermonTranscriptView(@Param("id") id: string, @Query("original") original: boolean) {
+		const sermon = await this.salvatorService.getSermon(id);
+		if (!sermon) throw new NotFoundException();
+
 		const transcription = await this.salvatorService.getSermonTranscript(id, { original });
 
 		const html = await marked.parse(transcription);
 
 		return {
+			sermon,
 			transcript: html,
 		};
 	}
