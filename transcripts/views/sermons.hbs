@@ -1,12 +1,16 @@
-<h1>Přepisy kázání</h1>
-<p>⚠️ Pozor! Jedná se o neoficiální neautorizované přepisy, vytvořené pomocí umělé inteligence. Přepisy tedy nemusí
-	odpovídat originálu.</p>
-<table>
-	{{#each sermons}}
-		<tr>
-			<th>{{date}}</th>
-			<td><a href="/{{id}}">{{title}}</a></td>
-			<td>{{description}}</td>
-		</tr>
-	{{/each}}
-</table>
+<div class="container">
+	<h1>Přepisy kázání</h1>
+
+	<p>⚠️ Pozor! Jedná se o neoficiální neautorizované přepisy, vytvořené pomocí umělé inteligence. Přepisy tedy nemusí
+		odpovídat originálu.</p>
+
+	<table>
+		{{#each sermons}}
+			<tr>
+				<th>{{date}}</th>
+				<td><a href="/{{id}}">{{title}}</a></td>
+				<td>{{description}}</td>
+			</tr>
+		{{/each}}
+	</table>
+</div>

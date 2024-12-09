@@ -3,7 +3,11 @@ th {
 	padding: 0.5em;
 }
 
+.container {
+	max-width: 900px;
+	margin: 0 auto;
+}
+
 p {
-	max-width: 700px;
 	text-align: justify;
 }
