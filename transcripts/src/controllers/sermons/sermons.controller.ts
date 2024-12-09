@@ -16,11 +16,13 @@ export class SermonsController {
 				.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 				.map((sermon) => {
 					const date = new Date(sermon.date).toLocaleDateString("cs-CZ", { timeZone: "CET" });
+					const idparts = sermon.id.match(/^(\d{4})-(\d{4}-\d{2}-\d{2})/);
 					return {
 						id: sermon.id,
 						date,
 						title: sermon.title,
 						description: sermon.description,
+						url_farnost: `https://www.farnostsalvator.cz/kazani/${idparts[1]}/${idparts[2]}`,
 					};
 				}),
 		};
