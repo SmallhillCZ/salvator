@@ -2,17 +2,9 @@ import { Injectable, Logger } from "@nestjs/common";
 import { Cron } from "@nestjs/schedule";
 import { readFile, writeFile } from "fs/promises";
 import { Config } from "src/config";
+import { SermonDto } from "src/dto/sermon.dto";
 import { RssParserService } from "../rss-parser/rss-parser.service";
 import { TranscriptionService } from "../transcription/transcription.service";
-
-export interface Sermon {
-	id: string;
-	url: string;
-	title: string;
-
-	description?: string;
-	date?: string;
-}
 
 @Injectable()
 export class SalvatorService {
@@ -26,12 +18,12 @@ export class SalvatorService {
 		private readonly transcriptionService: TranscriptionService,
 	) {}
 
-	async getSermons(): Promise<Sermon[]> {
+	async getSermons(): Promise<SermonDto[]> {
 		const sermons = await this.loadSermons();
 		return sermons;
 	}
 
-	async getSermon(id: string): Promise<Sermon | null> {
+	async getSermon(id: string): Promise<SermonDto | null> {
 		const sermons = await this.loadSermons();
 		const sermon = sermons.find((sermon) => sermon.id === id);
 
@@ -55,20 +47,25 @@ export class SalvatorService {
 
 			const oldSermons = await this.loadSermons();
 
-			const newSermons: Sermon[] = feed.items
+			const newSermons: SermonDto[] = feed.items
 				.filter((item) => item.guid && item.enclosure)
 				.map((item) => {
 					const id = this.getSermonId(item.guid!);
+					const idparts = id.match(/^(\d{4})-(\d{4}-\d{2}-\d{2})/);
+
 					return {
 						id,
 						title: item.title?.replace("●", "").trim() || id,
 						description: item.content,
-						url: item.enclosure!.url,
+						url_audio: item.enclosure!.url,
+						url_farnost: idparts
+							? `https://www.farnostsalvator.cz/kazani/${idparts[1]}/${idparts[2]}`
+							: undefined,
 						date: item.isoDate,
 					};
 				});
 
-			const sermonsMap = new Map<string, Sermon>();
+			const sermonsMap = new Map<string, SermonDto>();
 			for (const sermon of [...oldSermons, ...newSermons]) {
 				sermonsMap.set(sermon.id, sermon);
 			}
@@ -86,7 +83,7 @@ export class SalvatorService {
 
 				try {
 					this.logger.verbose(`Transcribing ${sermon.id}`);
-					await this.transcriptionService.transcribe(sermon.id, sermon.url);
+					await this.transcriptionService.transcribe(sermon.id, sermon.url_audio);
 					this.logger.log(`Transcribed ${sermon.id}`);
 				} catch (e) {
 					this.logger.error(`Error transcribing ${sermon.id}`);
@@ -103,7 +100,7 @@ export class SalvatorService {
 	}
 
 	private async loadSermons() {
-		const sermons: Sermon[] = await readFile(this.config.salvator.sermonsFile, "utf-8")
+		const sermons: SermonDto[] = await readFile(this.config.salvator.sermonsFile, "utf-8")
 			.then((data) => JSON.parse(data))
 			.catch(() => []);
 

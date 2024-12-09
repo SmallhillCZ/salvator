@@ -10,7 +10,7 @@
 				<th>{{date}}</th>
 				<td><a href="/{{id}}">{{title}}</a></td>
 				<td>{{description}}</td>
-				<td><a href="{{url_farnost}}">Web farnosti</a></td>
+				<td>{{#if url_farnost}}<a href="{{url_farnost}}">Web farnosti</a>{{/if}}</td>
 			</tr>
 		{{/each}}
 	</table>
