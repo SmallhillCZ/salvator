@@ -1,7 +1,6 @@
+import { Logger, ValidationPipe } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import { NestExpressApplication } from "@nestjs/platform-express";
-
-import { Logger } from "@nestjs/common";
 import { AppModule } from "./app.module";
 import { Config } from "./config";
 import { registerOpenAPI } from "./openapi";
@@ -13,6 +12,14 @@ async function bootstrap() {
 	const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
 	const config = app.get(Config);
+
+	app.useGlobalPipes(
+		new ValidationPipe({
+			whitelist: true,
+			forbidNonWhitelisted: true,
+			transform: true,
+		}),
+	);
 
 	// comment to disable templating
 	registerTemplating(app);
