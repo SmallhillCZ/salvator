@@ -1,5 +1,6 @@
 import { Controller, Get, NotFoundException, Param, Query, Render } from "@nestjs/common";
 import { marked } from "marked";
+import { GetSermonQueryDto } from "src/dto/sermon.dto";
 import { SalvatorService } from "src/services/salvator/salvator.service";
 
 @Controller("")
@@ -30,11 +31,11 @@ export class SermonsController {
 
 	@Get(":id")
 	@Render("sermon")
-	async getSermonTranscriptView(@Param("id") id: string, @Query("original") original: boolean) {
+	async getSermonTranscriptView(@Param("id") id: string, @Query() query: GetSermonQueryDto) {
 		const sermon = await this.salvatorService.getSermon(id);
 		if (!sermon) throw new NotFoundException();
 
-		const transcription = await this.salvatorService.getSermonTranscript(id, { original });
+		const transcription = await this.salvatorService.getSermonTranscript(id, { original: query.original });
 		if (!transcription) throw new NotFoundException();
 
 		const html = await marked.parse(transcription);
@@ -51,7 +52,7 @@ export class SermonsController {
 	}
 
 	@Get("api/sermons/:id/transcript")
-	async getSermonTranscript(@Param("id") id: string, @Query("original") original: boolean) {
-		return await this.salvatorService.getSermonTranscript(id, { original });
+	async getSermonTranscript(@Param("id") id: string, @Query() query: GetSermonQueryDto) {
+		return await this.salvatorService.getSermonTranscript(id, { original: query.original });
 	}
 }
