@@ -27,7 +27,7 @@ export class SermonsController {
 		const sermon = await this.salvatorService.getSermon(id);
 		if (!sermon) throw new NotFoundException();
 
-		const transcription = await this.salvatorService.getSermonTranscript(id, { original: query.original });
+		const transcription = await this.salvatorService.getSermonTranscript(id, { original: !!query.original });
 		if (!transcription) throw new NotFoundException();
 
 		const html = await marked.parse(transcription);

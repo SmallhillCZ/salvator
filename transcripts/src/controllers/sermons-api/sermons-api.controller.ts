@@ -31,7 +31,7 @@ export class SermonsApiController {
 		@Query() query: GetSermonQueryDto,
 		@Res() res: Response,
 	): Promise<void> {
-		const transcript = await this.salvatorService.getSermonTranscript(id, { original: query.original });
+		const transcript = await this.salvatorService.getSermonTranscript(id, { original: !!query.original });
 
 		if (!transcript) res.sendStatus(404);
 		else res.status(200).send(transcript);

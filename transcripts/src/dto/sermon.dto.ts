@@ -1,4 +1,4 @@
-import { IsBoolean, IsOptional } from "class-validator";
+import { IsNumber, IsOptional } from "class-validator";
 
 export class SermonDto {
 	id!: string;
@@ -11,5 +11,5 @@ export class SermonDto {
 }
 
 export class GetSermonQueryDto {
-	@IsBoolean() @IsOptional() original?: boolean;
+	@IsNumber() @IsOptional() original?: number;
 }
