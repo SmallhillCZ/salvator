@@ -1,7 +1,12 @@
 <div class="container">
 	<h2>Přepis kázání: {{sermon.title}}</h2>
 
-	<p><i>{{#if sermon.date}}{{sermon.date}}, {{/if}}{{sermon.description}}</i></p>
+	<p>
+		{{#if sermon.url_farnost}}<a href="{{sermon.url_farnost}}">{{#if sermon.date}}{{sermon.date}},
+				{{/if}}{{sermon.description}}</a>
+		{{else}}<i>{{#if sermon.date}}{{sermon.date}}, {{/if}}{{sermon.description}}</i>
+		{{/if}}
+	</p>
 
 	{{#if sermon.url_audio}}
 		<div>
