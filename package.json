@@ -2,6 +2,6 @@
   "name": "salvator",
   "private": true,
   "scripts": {
-    "release": "git switch main && git push && git switch release && git merge master --ff-only && git push --follow-tags && git switch master"
+    "release": "git switch master && git pull && git push && git switch release && git merge master --ff-only && git push --follow-tags && git switch master"
   }
 }
