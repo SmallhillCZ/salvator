@@ -3,6 +3,17 @@
 
 	<p><i>{{#if sermon.date}}{{sermon.date}}, {{/if}}{{sermon.description}}</i></p>
 
+	{{#if sermon.url_audio}}
+		<div>
+			<audio controls="controls" controlslist="nodownload" class="loaded">
+				<source src="{{sermon.url_audio}}" type="audio/mpeg" />
+				<span>
+					Your browser does not support the audio element.
+				</span>
+			</audio>
+		</div>
+	{{/if}}
+
 	<div id="transcript">
 		{{{transcript}}}
 	</div>
