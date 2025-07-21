@@ -1,15 +1,38 @@
+<style>
+	.sermons .title {
+		margin-bottom: 0.3em;
+		font-weight: bold;
+	}
+	.sermons p.description {
+		opacity: 0.8;
+		font-size: 0.8em;
+		margin-top: 0.3em;
+	}
+
+	.sermons tr {
+		border-top: 1px solid #eee;
+	}
+
+	.sermons td,
+	.sermons th {
+		vertical-align: top;
+	}
+</style>
+
 <div class="container">
 	<h1>Přepisy kázání</h1>
 
 	<p>⚠️ Pozor! Jedná se o neoficiální neautorizované přepisy, vytvořené pomocí umělé inteligence. Přepisy tedy nemusí
 		odpovídat originálu.</p>
 
-	<table>
+	<table class="sermons">
 		{{#each sermons}}
 			<tr>
 				<th>{{date}}</th>
-				<td><a href="/{{id}}">{{title}}</a></td>
-				<td>{{description}}</td>
+				<td>
+					<p class="title"><a href="/{{id}}">{{title}}</a></p>
+					<p class="description">{{description}}</p>
+				</td>
 				<td>{{#if url_farnost}}<a href="{{url_farnost}}">Web farnosti</a>{{/if}}</td>
 			</tr>
 		{{/each}}

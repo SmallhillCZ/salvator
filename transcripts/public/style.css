@@ -8,6 +8,7 @@ html {
 	font-family: Quattrocento, sans-serif;
 	font-size: 16px;
 	line-height: 21px;
+	padding: 0.5em;
 }
 
 td,
@@ -30,4 +31,8 @@ a {
 }
 a:visited {
 	color: #09f;
+}
+
+table {
+	border-collapse: collapse;
 }
