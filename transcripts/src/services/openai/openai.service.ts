@@ -25,6 +25,7 @@ export class OpenaiService {
 			...options,
 			file,
 			model: "whisper-1",
+			stream: false,
 		});
 
 		return response.text;
