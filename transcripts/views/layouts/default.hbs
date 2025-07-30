@@ -26,6 +26,13 @@
 		<meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/3/34/Tomas_Halik.jpg" />
 		{{#if date}}<meta property="article:published_time" content="{{date}}" />{{/if}}
 
+		<script type="application/ld+json">
+			{ "@context": "https://schema.org", "@type": "Article",
+			{{#if title}}"headline": "{{title}}",{{/if}}
+			{{#if date}}"datePublished": "{{date}}", "dateModified": "{{date}}"{{/if}}
+			}
+		</script>
+
 		<link rel="stylesheet" href="/style.css" />
 	</head>
 	<body>
