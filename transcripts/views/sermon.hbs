@@ -12,7 +12,7 @@
 		odpovídat originálu.</p>
 
 	{{#if sermon.url_audio}}
-		<div>
+		<div style="margin:2em 0;">
 			<audio controls="controls" controlslist="nodownload" class="loaded" preload="metadata">
 				<source src="{{sermon.url_audio}}" type="audio/mpeg" />
 				<span>
@@ -22,7 +22,7 @@
 		</div>
 	{{/if}}
 
-	<div id="transcript">
+	<div id="transcript" style="margin-top:2em;">
 		{{{transcript}}}
 	</div>
 
