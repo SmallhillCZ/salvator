@@ -33,6 +33,7 @@ export class SermonsController {
 		const html = await marked.parse(transcription);
 
 		return {
+			title: sermon.title ?? null,
 			sermon: this.formatSermonForView(sermon),
 			transcript: html,
 		};
