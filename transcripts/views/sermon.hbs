@@ -13,7 +13,7 @@
 
 	{{#if sermon.url_audio}}
 		<div>
-			<audio controls="controls" controlslist="nodownload" class="loaded">
+			<audio controls="controls" controlslist="nodownload" class="loaded" preload="metadata">
 				<source src="{{sermon.url_audio}}" type="audio/mpeg" />
 				<span>
 					Your browser does not support the audio element.
