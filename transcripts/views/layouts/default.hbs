@@ -2,17 +2,30 @@
 	<head>
 		<meta charset="utf-8" />
 		<title>{{#if title}}{{title}} :: {{/if}}Neoficiální přepisy kázání z Akademické farnosti Praha</title>
-		<meta
-			name="description"
-			content="Neoficiální automatické přepisy kázání z Akademické farnosti Praha pomocí OpenAI Whisper a ChatGPT."
-		/>
+
 		<meta name="keywords" content="halík,hruška,orko,vácha,prívara,salvet,salvátor" />
-		<meta property="og:title" content="{{#if title}}{{title}} :: {{/if}}Neoficiální přepisy kázání z Akademické farnosti Praha" />
-		<meta property="og:description" content="Neoficiální automatické přepisy kázání z Akademické farnosti Praha pomocí OpenAI Whisper a ChatGPT." />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+		{{#if title}}
+			<meta property="og:title" content="{{title}}" />
+			<meta property="og:site_name" content="Neoficiální přepisy kázání z Akademické farnosti Praha" />
+		{{else}}
+			<meta property="og:title" content="Neoficiální přepisy kázání z Akademické farnosti Praha" />
+		{{/if}}
+
+		{{#if description}}
+			<meta property="og:description" content="{{description}}" />
+		{{else}}
+			<meta
+				property="og:description"
+				content="Neoficiální automatické přepisy kázání z Akademické farnosti Praha pomocí OpenAI Whisper a ChatGPT."
+			/>
+		{{/if}}
+
 		<meta property="og:type" content="website" />
 		<meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/3/34/Tomas_Halik.jpg" />
+		{{#if date}}<meta property="article:published_time" content="{{date}}" />{{/if}}
 
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="stylesheet" href="/style.css" />
 	</head>
 	<body>

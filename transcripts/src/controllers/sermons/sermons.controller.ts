@@ -34,6 +34,8 @@ export class SermonsController {
 
 		return {
 			title: sermon.title ?? null,
+			date: sermon.date,
+			description: sermon.description ?? null,
 			sermon: this.formatSermonForView(sermon),
 			transcript: html,
 		};
