@@ -36,6 +36,7 @@ export class SalvatorService {
 		return transcription;
 	}
 
+	/** Every hour: refresh the feed and transcribe only the sermons currently in the feed. */
 	@Cron("0 0 * * * *")
 	async updateSermons() {
 		try {
@@ -76,26 +77,52 @@ export class SalvatorService {
 
 			this.logger.verbose(`Loaded ${newSermons.length} sermons. Total: ${sermons.length}`);
 
-			this.logger.verbose("Transcribing sermons");
-
-			for (const sermon of sermons) {
-				if (await this.transcriptionService.transcriptionExists(sermon.id)) continue;
-
-				try {
-					this.logger.verbose(`Transcribing ${sermon.id}`);
-					await this.transcriptionService.transcribe(sermon.id, sermon.url_audio);
-					this.logger.log(`Transcribed ${sermon.id}`);
-				} catch (e) {
-					this.logger.error(`Error transcribing ${sermon.id}`);
-					console.error(JSON.stringify(e));
-				}
-			}
+			this.logger.verbose("Transcribing sermons from the feed");
+			await this.transcribeSermons(newSermons);
 		} catch (e) {
 			this.logger.error("Error transcribing sermons");
 			console.error(JSON.stringify(e));
 		} finally {
 			this.logger.verbose("Finished transcribing sermons");
 			this.updateRunning = false;
+		}
+	}
+
+	/**
+	 * Every week: retry the sermons that are no longer in the feed and still have no transcription.
+	 * Runs offset from the hourly job so the two never collide on the running lock.
+	 */
+	@Cron("0 30 3 * * 0")
+	async updateOldSermons() {
+		try {
+			if (this.updateRunning) return;
+			this.updateRunning = true;
+
+			const sermons = await this.loadSermons();
+
+			this.logger.verbose("Transcribing old sermons without transcription");
+			await this.transcribeSermons(sermons);
+		} catch (e) {
+			this.logger.error("Error transcribing old sermons");
+			console.error(JSON.stringify(e));
+		} finally {
+			this.logger.verbose("Finished transcribing old sermons");
+			this.updateRunning = false;
+		}
+	}
+
+	private async transcribeSermons(sermons: SermonDto[]) {
+		for (const sermon of sermons) {
+			if (await this.transcriptionService.transcriptionExists(sermon.id)) continue;
+
+			try {
+				this.logger.verbose(`Transcribing ${sermon.id}`);
+				await this.transcriptionService.transcribe(sermon.id, sermon.url_audio);
+				this.logger.log(`Transcribed ${sermon.id}`);
+			} catch (e) {
+				this.logger.error(`Error transcribing ${sermon.id}`);
+				console.error(JSON.stringify(e));
+			}
 		}
 	}
 
