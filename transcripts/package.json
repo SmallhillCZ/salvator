@@ -64,6 +64,12 @@
       "ts"
     ],
     "rootDir": "src",
+    "modulePaths": [
+      "<rootDir>/.."
+    ],
+    "moduleNameMapper": {
+      "^marked$": "<rootDir>/../node_modules/marked/lib/marked.umd.js"
+    },
     "testRegex": ".*\\.spec\\.ts$",
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
