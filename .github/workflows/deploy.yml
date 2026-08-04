@@ -20,4 +20,4 @@ jobs:
         env:
           WATCHTOWER_URL: ${{ vars.WATCHTOWER_URL }}
           WATCHTOWER_TOKEN: ${{ secrets.WATCHTOWER_TOKEN }}
-        run: 'curl -I -H "Authorization: Bearer $WATCHTOWER_TOKEN" $WATCHTOWER_URL'
+        run: 'curl --fail --request POST --head --header "Authorization: Bearer $WATCHTOWER_TOKEN" $WATCHTOWER_URL'
