@@ -1,0 +1,86 @@
+<style>
+	.results {
+		list-style: none;
+		padding: 0;
+	}
+
+	.results li {
+		border-top: 1px solid #eee;
+		padding: 0.8em 0;
+	}
+
+	.results .title {
+		margin-bottom: 0.2em;
+		font-weight: bold;
+	}
+
+	.results .meta,
+	.summary {
+		opacity: 0.8;
+		font-size: 0.8em;
+	}
+
+	.results .snippet {
+		margin: 0.4em 0;
+	}
+
+	.pagination {
+		display: flex;
+		justify-content: space-between;
+		margin: 1.5em 0;
+	}
+</style>
+
+<div class="container">
+	<h1>Hledání v přepisech kázání</h1>
+
+	{{> search-form}}
+
+	{{#if searched}}
+		{{#if total}}
+			<p class="summary">
+				Nalezeno {{total}} kázání, zobrazeno {{from}}–{{to}}. Řadit podle:
+				{{#if sortedByDate}}
+					<a href="{{relevanceUrl}}">relevance</a> | <strong>data</strong>
+				{{else}}
+					<strong>relevance</strong> | <a href="{{dateUrl}}">data</a>
+				{{/if}}
+			</p>
+
+			<ul class="results">
+				{{#each results}}
+					<li>
+						<p class="title"><a href="/{{sermon.id}}">{{sermon.title}}</a></p>
+						<p class="meta">
+							{{#if sermon.date}}{{sermon.date}}{{/if}}
+							{{#if sermon.description}}&middot; {{sermon.description}}{{/if}}
+						</p>
+						{{#each snippets}}
+							<p class="snippet">
+								{{~#each this~}}
+									{{~#if highlight~}}<mark>{{text}}</mark>{{~else~}}{{text}}{{~/if~}}
+								{{~/each~}}
+							</p>
+						{{/each}}
+					</li>
+				{{/each}}
+			</ul>
+
+			<div class="pagination">
+				<span>{{#if previousUrl}}<a href="{{previousUrl}}">&larr; Předchozí</a>{{/if}}</span>
+				<span>{{#if nextUrl}}<a href="{{nextUrl}}">Další &rarr;</a>{{/if}}</span>
+			</div>
+		{{else}}
+			<p>Hledanému výrazu neodpovídá žádné kázání.</p>
+		{{/if}}
+	{{else}}
+		<p class="summary">Hledá se ve všech přepsaných kázáních. Na diakritice ani velikosti písmen nezáleží, musí být
+			nalezena všechna zadaná slova. Slovní spojení lze uzavřít do dvojitých uvozovek.</p>
+	{{/if}}
+
+	<p>
+		<a href="/">
+			&larr; Zpět na seznam kázání
+		</a>
+	</p>
+</div>

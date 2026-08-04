@@ -29,6 +29,11 @@ export class Config {
 		tmpDir: path.join(tmpdir(), "transcriptions"),
 	};
 
+	search = {
+		/** How long the fulltext index is used before it is refreshed from the transcriptions directory. */
+		indexTtl: (process.env["SEARCH_INDEX_TTL"] ? parseInt(process.env["SEARCH_INDEX_TTL"]) : 300) * 1000,
+	};
+
 	app = {
 		name: this.packageJson.name,
 	};

@@ -36,3 +36,35 @@ a:visited {
 table {
 	border-collapse: collapse;
 }
+
+form.search {
+	display: flex;
+	gap: 0.5em;
+	margin: 1.5em 0;
+}
+
+form.search input {
+	flex: 1;
+	min-width: 0;
+	max-width: 30em;
+	font-family: inherit;
+	font-size: 1em;
+	padding: 0.4em 0.6em;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+}
+
+form.search button {
+	font-family: inherit;
+	font-size: 1em;
+	padding: 0.4em 1em;
+	border: 1px solid #09f;
+	border-radius: 3px;
+	background: #09f;
+	color: #fff;
+	cursor: pointer;
+}
+
+mark {
+	background: #ff8;
+}
