@@ -12,7 +12,17 @@ import { OpenaiService } from "../openai/openai.service";
 export class TranscriptionService implements OnApplicationBootstrap {
 	private logger = new Logger(TranscriptionService.name);
 
-	private readonly transcriptionPrompt = "Moji milí, křesťanství, ježíš, pilát, salvátor";
+	private readonly transcriptionPrompt = `\
+Jsi strojový přepisovatel kazatelských nahrávek.
+Tvým úkolem je přepsat následující text, který byl nahrán z kazatelské nahrávky.
+ * Nepřidávej, žádná slova, která nezazněla v nahrávce, i kdyby věta potom nedávala smysl. 
+ * Pouze  oprav překlepy a gramatické chyby, které mohly vzniknout strojovým přepisem.
+ * Použij českou typografii, tedy například české uvozovky a pomlčky.
+ * Rozděl text do odstavců souvisejícího textu. Odstavce nemusí být stejně dlouhé.
+ * Použij pouze dodaný kontext, nezakládej se na vlastní znalosti či zkušenostech.
+ * Odpověz pouze přepsaným textem.`;
+
+	private readonly transcriptionKeywords = ["Moji milí", "křesťanství", "ježíš", "pilát", "salvátor"];
 
 	private readonly correctionPrompt = `\
 Jsi korektor v akademické farnosti nejsvětejšího Salvátora.
@@ -45,7 +55,10 @@ Tvým úkolem je opravit následující text, který byl přepsán z nahrávky k
 		await this.downloadTranscription(url, sourcePath);
 
 		this.logger.debug("Transcribing");
-		const transcription = await this.openai.transcribe(sourcePath, { prompt: this.transcriptionPrompt });
+		const transcription = await this.openai.transcribe(sourcePath, {
+			prompt: this.transcriptionPrompt,
+			keywords: this.transcriptionKeywords,
+		});
 		await writeFile(targetPath, transcription);
 
 		this.logger.debug("Correcting transcription");
