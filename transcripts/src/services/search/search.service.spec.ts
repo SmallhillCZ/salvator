@@ -67,10 +67,6 @@ describe("SearchService", () => {
 		await rm(outputDir, { recursive: true, force: true });
 	});
 
-	it("should be defined", () => {
-		expect(service).toBeDefined();
-	});
-
 	it("finds a sermon by a word from the transcript, without diacritics", async () => {
 		const result = await service.search({ q: "krizi" });
 
