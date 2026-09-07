@@ -24,7 +24,7 @@ export class OpenaiService {
 			language: "cs",
 			...options,
 			file,
-			model: "whisper-1",
+			model: "gpt-transcribe",
 			stream: false,
 		});
 
